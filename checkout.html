@@ -3,6 +3,24 @@
 <head>
   <title>Checkout</title>
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <script type="text/javascript">
+  // Инициализация Sandbox-ключом
+  Paddle.Environment.set('sandbox');
+  Paddle.Setup({ 
+    token: 'pdl_test_...' // Твой Client-side Token из Dashboard
+  });
+
+  // Получаем ID транзакции из URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const txnId = urlParams.get('_ptxn');
+
+  if (txnId) {
+    // Открываем чекаут прямо на странице или оверлеем
+    Paddle.Checkout.open({
+      transactionId: txnId
+    });
+  }
+</script>
 </head>
 <body>
   <h1>Secure Checkout</h1>
