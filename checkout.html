@@ -2,25 +2,35 @@
 <html>
 <head>
   <title>Checkout</title>
-  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-  <script type="text/javascript">
-  // Инициализация Sandbox-ключом
-  Paddle.Environment.set('sandbox');
-  Paddle.Setup({ 
-    token: 'pdl_test_...' // Твой Client-side Token из Dashboard
+ <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script type="text/javascript">
+  // Включаем Sandbox режим ОБЯЗАТЕЛЬНО
+  Paddle.Environment.set('sandbox'); 
+
+  Paddle.Initialize({ 
+    token: 'test_4979061abef2ae161cdb4215497' 
   });
 
-  // Получаем ID транзакции из URL
   const urlParams = new URLSearchParams(window.location.search);
   const txnId = urlParams.get('_ptxn');
 
   if (txnId) {
-    // Открываем чекаут прямо на странице или оверлеем
+    console.log("Пытаемся открыть транзакцию:", txnId);
+    
     Paddle.Checkout.open({
-      transactionId: txnId
+      transactionId: txnId,
+      settings: {
+        displayMode: 'inline', // Или 'overlay'
+        frameTarget: 'checkout-container', // ID дива на странице
+        frameInitialHeight: 450
+      }
     });
+  } else {
+    console.error("ID транзакции (_ptxn) не найден в URL");
   }
 </script>
+
+<div class="checkout-container"></div>
 </head>
 <body>
   <h1>Secure Checkout</h1>
